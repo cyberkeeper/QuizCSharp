@@ -1,7 +1,8 @@
 ﻿namespace Useful
 {
     /// <summary>
-    /// Simple class to hold address details.
+    /// Simple class to hold address details. Very generic and would benefit from adding checking to 
+    /// the postcode variable.
     /// 
     /// </summary>
     public class Address
