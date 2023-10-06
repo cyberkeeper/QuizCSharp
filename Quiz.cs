@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Useful;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Quiz
 {
+    /// <summary>
+    /// Quiz program. Asks the user for their name, asks questions and then displays the total 
+    /// score to the user.Questions can be of variety of types all of which are child classes of 
+    /// Question class. The questions are loaded in from a csv file but code is present to allow
+    /// connection to a MySQL database, this database access functionality is commented out by
+    /// default but can be enabled when required.
+    /// </summary>
     internal class Quiz
     {
         protected string DEFAULT_NAME = "Anon";
 
-        protected string inputFilename = "/resources/scot-questions.csv";
+        protected string InputFilename = "./resources/scot-questions.csv";
 
-        private int maxPossibleScore = 0;
+        private int _maxPossibleScore = 0;
 
         /// <summary>
         /// Questions for the quiz will be held here.
@@ -33,6 +42,7 @@ namespace Quiz
                 Console.WriteLine("Aborting program!");
                 Console.WriteLine("Exception thrown" + e.Message);
                 //Show an exit code to indicate an error
+                Environment.Exit(1);
             }
         }
 
@@ -42,7 +52,7 @@ namespace Quiz
         /// <returns></returns>
         private List<Question> LoadAndParseDataFromFile()
         {
-            List<string> rows = new List<string>();//to do
+            List<string> rows = UsefulFileAccess.ReadFromFile(InputFilename);
             List<Question> localQuestions = new List<Question>();
 
             //for each element in the arraylist split it into name and rating. Count those with a rating >= RATING_LIMIT
@@ -104,38 +114,39 @@ namespace Quiz
                 if (firstRun)
                 {
                     //running the quiz for the first time for this user
-                    Console.WriteLine("Welcome %s to the quiz of the century!", livePlayer.FirstName);
+                    Console.WriteLine(String.Format("Welcome {0} to the quiz of the century!", livePlayer.FirstName));
                 }
                 else
                 {
                     //running the quiz for another attempt
-                    bool who = YesNoUserResponse(String.Format("Is %s still playing?", livePlayer.FirstName));
+                    bool who = YesNoUserResponse(String.Format("Is {0} still playing?", livePlayer.FirstName));
                     if (who)
                     {
                         Console.WriteLine("Try and beat your previous score");
                     }
                     else
                     {
-                        livePlayer.FirstName = GetUserDetails();
-                        Console.WriteLine("Welcome %s to the quiz of the century!", livePlayer.FirstName);
+                        livePlayer = new Player(GetUserDetails(), "");
+                        Console.WriteLine(String.Format("Welcome {0} to the quiz of the century!", livePlayer.FirstName));
                     }
                 }
                 // shuffle the questions before asking and reset the max possible score
                 // Shuffle the list using the Fisher-Yates algorithm.
                 Question.Shuffle(quizQuestions);
-                maxPossibleScore = 0;
+                _maxPossibleScore = 0;
 
                 //ask the questions and keep track of the score
                 int total = 0;
                 for (int i = 0; i < quizQuestions.Count; i++)
                 {
-                    Console.WriteLine("Q%d: ", i + 1);
+                    Console.Write("Q"+ (i + 1) + ": ");
                     total = total + AskQuestion(quizQuestions[i]);
+                    Console.WriteLine();
                 }
 
                 //record latest score and print results
-                livePlayer.RecordScore(total);
-                Console.WriteLine("%s you scored %d/%d", livePlayer.FirstName, livePlayer.GetLastScore(), maxPossibleScore);
+                livePlayer.RecordScore(total);                
+                Console.WriteLine(String.Format("{0} you scored {1}/{2}", livePlayer.FirstName, livePlayer.GetLastScore(), _maxPossibleScore));
 
                 //write results to file.
                 // do you want to rerun?
@@ -199,7 +210,7 @@ namespace Quiz
             //get the user input. 
             string? answer = Console.ReadLine();
 
-            maxPossibleScore = maxPossibleScore + q.Points;
+            _maxPossibleScore = _maxPossibleScore + q.Points;
 
             if (String.IsNullOrEmpty(answer))
             {
@@ -209,12 +220,12 @@ namespace Quiz
             {
                 if (q.IsCorrect(answer))
                 {
-                    Console.WriteLine("%s is the correct answer. %d points.", answer, q.Points);
+                    Console.WriteLine(answer + " is the correct answer. " + q.Points + " points.");
                     score = q.Points;
                 }
                 else
                 {
-                    Console.WriteLine("%s is the wrong answer. 0 points.", answer);
+                    Console.WriteLine(answer + " is the wrong answer. 0 points.");
                 }
             }
             return score;

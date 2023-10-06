@@ -15,7 +15,7 @@ namespace Quiz
         /// </summary>
         protected List<string> options = new List<string>();
 
-        private int _correctIndex;
+        private readonly int _correctIndex;
 
         public MultipleChoiceQuestion(string question, string answer, string[] wrongOptions, int points) : base(question, answer, points)
         {
@@ -32,27 +32,29 @@ namespace Quiz
         }
 
         /// <summary>
-        /// Returns the question for this instance.
+        /// Override the Property that returns the question to make it specific for this type of class.
         /// </summary>
-        /// <returns>Question to be asked.</returns>
-        protected string GetQuestion()
+        public override string Quest
         {
-            string output = base.Quest + "\n";
-
-            //build up the options the user can pick from, allows multiple choice questions with more or less options.
-            string userOptions = "(Answer ";
-
-            //add on each option prefixed by a number
-            for (int i = 0; i < options.Count; i++)
+            get
             {
-                output += (i + 1) + ":" + options[i] + "\n";
-                userOptions += (i + 1) + ",";
+                string output = base.Quest + "\n";
+
+                //build up the options the user can pick from, allows multiple choice questions with more or less options.
+                string userOptions = "(Answer ";
+
+                //add on each option prefixed by a number
+                for (int i = 0; i < options.Count; i++)
+                {
+                    output += (i + 1) + ": " + options[i] + "\n";
+                    userOptions += (i + 1) + ",";
+                }
+
+                //finish up the user options, remove last comma and add closing bracket
+                userOptions = userOptions.Substring(0, userOptions.Length - 1) + ")";
+
+                return output += userOptions;
             }
-
-            //finish up the user options, remove last comma and add closing bracket
-            userOptions.Substring(0, userOptions.Length - 2);
-
-            return output += userOptions;
         }
 
         /// <summary>

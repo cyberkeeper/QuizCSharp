@@ -18,12 +18,14 @@ namespace Quiz
         }
 
         /// <summary>
-        /// Returns the question for this instance.
+        /// Override the Property that returns the question to make it specific for this type of class.
         /// </summary>
-        /// <returns>The question to be asked with a prompt for true/false.</returns>
-        public string GetQuestion()
+        public override string Quest
         {
-            return base.Quest + "\n(Answer true or false)";
+            get
+            {
+                return base.Quest + "\n(Answer true or false)";
+            }
         }
     }
 }

@@ -5,9 +5,9 @@
     /// </summary>
     internal abstract class Question
     {
-        private string _quest = string.Empty;
+        private readonly string _quest = string.Empty;
 
-        private string _answer = string.Empty;
+        private readonly string _answer = string.Empty;
 
         private int _points = 0;
 
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the question.
         /// </summary>
-        public string Quest { get => _quest; }
+        virtual public string Quest { get => _quest + "?"; }
 
         /// <summary>
         /// Gets the answer.
