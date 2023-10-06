@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="userSays">What ever the user answered in response to the question</param>
         /// <returns>True is the user answered correctly, else returns false</returns>
-        public bool IsCorrect(string userSays)
+        virtual public bool IsCorrect(string userSays)
         {
             //check that some sort of answer was supplied, some text changed
             if (userSays != null && userSays.Length > 0)
@@ -79,6 +79,23 @@
                     ", answer='" + Answer + '\'' +
                     ", points=" + Points +
                     '}';
+        }
+
+        /// <summary>
+        /// This will shuffle the contents of a list. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        public static void Shuffle<T>(List<T> list)
+        {
+            Random random = new Random();
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                int j = random.Next(i + 1);
+                T temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
         }
     }
 }

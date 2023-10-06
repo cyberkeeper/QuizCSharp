@@ -39,6 +39,7 @@ namespace Quiz
                     Console.WriteLine("Problem parsing previous score information.");
                 }
             }
+
         }
 
         /// <summary>
@@ -97,10 +98,11 @@ namespace Quiz
                 {
                     scores = score + ", " + scores;
                 }
-
+                
                 scores = scores.Substring(0, scores.Length - 2);
             }
             scores = "[" + scores + "]";
+            
             return "Player: " + base.ToString() + " previousScores=" + scores;
         }
     }
