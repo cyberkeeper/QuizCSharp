@@ -6,7 +6,7 @@ namespace Quiz
     /// Text question class. Has the same functionality as the Question class but was added to 
     /// make the structure of the code better. 
     /// </summary>
-    internal class TextQuestion : Question
+    class TextQuestion : Question
     {
         /// <summary>
         /// Constructor. Use this to set up the instance of a question. This is the only way to set the question and 

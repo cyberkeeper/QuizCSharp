@@ -3,7 +3,7 @@
     /// <summary>
     /// Class which defines a textual question. This is the base class for all question types.
     /// </summary>
-    internal abstract class Question
+    abstract class Question : IQuestionADT
     {
         private readonly string _quest = string.Empty;
 

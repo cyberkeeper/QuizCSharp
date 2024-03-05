@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Useful
+﻿namespace Useful
 {
     /// <summary>
     /// This class contains some generic methods that could be used in several programs without being edited.

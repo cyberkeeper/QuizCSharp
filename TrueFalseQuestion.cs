@@ -1,12 +1,9 @@
-﻿using Quiz;
-using System.Transactions;
-
-namespace Quiz
+﻿namespace Quiz
 {
     /// <summary>
     /// Class which defines a true or false question. By default, all this type of question is worth 1 point.
     /// </summary>
-    internal class TrueFalseQuestion : Question
+    class TrueFalseQuestion : Question
     {
         /// <summary>
         /// Constructor calls the super class construction with a score of 1 points.

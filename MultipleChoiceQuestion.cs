@@ -1,14 +1,11 @@
-﻿using System.Runtime.ConstrainedExecution;
-using System.Runtime.Serialization;
-
-namespace Quiz
+﻿namespace Quiz
 {
     /// <summary>
     /// Class which defines a multiple-choice question. The question is flexible and can a variety of different
     /// answers that the player can select from.The player selects their answer by entering the number associated 
     /// with the answer they wish to submit.The options are shuffled when the question is created.
     /// </summary>
-    internal class MultipleChoiceQuestion : Question
+    class MultipleChoiceQuestion : Question
     {
         /// <summary>
         /// Contains the correct answer and the wrong answers
